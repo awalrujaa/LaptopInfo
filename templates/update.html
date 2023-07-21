@@ -1,0 +1,113 @@
+{% extends 'base.html' %} {% block title %}Create{% endblock %} {% load static
+%} {% block content %}
+
+<form
+  method="post"
+  action="{% url 'computer:updateSuccess' current_specification.id %}"
+  enctype="multipart/form-data"
+>
+  {% csrf_token %}
+  <div class="form-group row">
+    <label
+      for="computerCode"
+      class="col-sm-2 col-form-label"
+      style="padding-left: 2rem"
+      >Computer Code</label
+    >
+    <div class="col-sm-10">
+      <input
+        type="text"
+        class="form-control"
+        id="computerCode"
+        name="computerCode"
+        value="{{current_specification.computer_code}}"
+        required
+      />
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <label
+      for="computerGen"
+      class="col-sm-2 col-form-label"
+      style="padding-left: 2rem"
+      >Computer Specification</label
+    >
+
+    <div class="col-sm-10">
+      <select name="specificationId" id="cars">
+        {% for specification in specifications %}
+        <option value="{{specification.id}}">
+          {{ specification.generation }}
+        </option>
+        {% endfor %}
+      </select>
+    </div>
+  </div>
+  <div class="form-group row">
+    <label
+      for="quantity"
+      class="col-sm-2 col-form-label"
+      style="padding-left: 2rem"
+      >Quantity</label
+    >
+    <div class="col-sm-10">
+      <input
+        type="number"
+        min="1"
+        max="1000"
+        value="{{current_specification.quantity}}"
+        class="form-control"
+        id="quantity"
+        name="quantity"
+        placeholder="Quantity"
+        required
+      />
+    </div>
+  </div>
+  <div class="form-group row">
+    <label
+      for="computercode"
+      class="col-sm-2 col-form-label"
+      style="padding-left: 2rem"
+      >Unit Price</label
+    >
+    <div class="col-sm-10">
+      <input
+        type="number"
+        class="form-control"
+        id="unitPrice"
+        name="unitPrice"
+        value="{{current_specification.unit_rate}}"
+        placeholder="Unit Price"
+        required
+      />
+    </div>
+    <div class="form-group row">
+      <label
+        for="computercode"
+        class="col-sm-2 col-form-label"
+        style="padding-left: 3.5rem; padding-top: 1rem"
+        >Replace</label
+      >
+      <input
+        type="file"
+        class="col-sm-8 col-form-label"
+        name="files"
+        id="upload-input"
+        class="visually-hidden"
+        accept="image/*"
+        style="margin-left: 200px; padding-left: 100px"
+      />
+      <div style="padding-left: 300px">{{current_specification.image}}</div>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <div class="col-sm-10">
+      <button type="submit" class="btn btn-primary btn-lg">Update</button>
+    </div>
+  </div>
+</form>
+
+{% endblock %}

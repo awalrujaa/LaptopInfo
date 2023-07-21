@@ -1,0 +1,58 @@
+{% extends 'base.html' %} {% block title %}Create{% endblock %} {% load static
+%} {%block content%} {%for data in page_obj%}
+
+<div class="row">
+  <div class="center-block">
+    <div class="bg-image">
+      <img
+        src="http://localhost:8000/media/{{ data.image }}"
+        class="img-fluid"
+        alt="{{ data.image }}"
+        style="height: 200px; width: 500px; padding: 10px"
+      />
+
+      <!-- <div class="d-flex justify-content-center align-items-center h-100">
+          <p class="text-white mb-0">
+            <form method="post" action="{% url 'computer:delete_image' data.id %}">
+           {% csrf_token %}
+                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+              
+            </form>
+          </p>
+    
+      </div> -->
+    </div>
+  </div>
+  <div class="center-block" style="padding: 0.4rem">
+    {{data.specification}}
+    <hr />
+    Computer Code : {{data.computer_code}} <br />
+    Quantity: {{data.quantity}} <br />
+    Unit Rate: {{data.unit_rate}} <br />
+    Total Price: {{data.total_price}} <br />
+    <a href="{% url 'computer:updateList' data.id %}"
+      ><button type="submit" class="btn btn-primary">Edit</button></a
+    >
+  </div>
+</div>
+
+{% endfor %}
+<div class="pagination">
+  <span class="step-links">
+    {%if page_obj.has_previous%}
+    <a href="?page=1">&laquo; first</a>
+    <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+    {%endif%}
+
+    <span class="current">
+      Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+    </span>
+
+    {%if page_obj.has_next%}
+    <a href="?page={{ page_obj.next_page_number }}">next</a>
+    <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+    {% endif %}
+  </span>
+</div>
+
+{%endblock%}
