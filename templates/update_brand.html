@@ -1,0 +1,40 @@
+{% extends 'base.html' %} {% block title %}Create{% endblock %} {% load static
+%} {% block content %}
+
+<form
+  method="post"
+  action="{%  url 'computer:update_brand' current_specification.id %}"
+  enctype="multipart/form-data"
+>
+  {% csrf_token %}
+  <div class="form-group">
+    <label for="brand_name">Brand Name</label>
+    <input
+      type="text"
+      class="form-control"
+      id="brand_name"
+      name="brand_name"
+      value="{{current_specification.brand_name}}"
+      required
+    />
+  </div>
+  <div class="form-group">
+    <label for="brand_logo">Logo</label>
+    <input
+      type="file"
+      class="col-sm-8 col-form-label"
+      id="brand_logo"
+      name="brand_logo"
+      accept="image/*"
+    />
+  </div>
+
+  <div style="padding-left: 300px">{{current_specification.logo}}</div>
+  <div class="form-group row">
+    <div class="col-sm-10">
+      <button type="submit" class="btn btn-primary btn-lg">Save</button>
+    </div>
+  </div>
+</form>
+
+{% endblock %}

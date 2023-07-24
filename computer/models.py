@@ -19,7 +19,7 @@ def validate_file_size(value):
 # Create your models here.
 class ComputerBrand(models.Model):
     brand_name = models.CharField(max_length=50)
-    logo = models.FileField(validators=[validate_file_size, validate_file_type])
+    logo = models.FileField(validators=[validate_file_size, validate_file_type],upload_to="Brand")
 
 
     def __str__(self):

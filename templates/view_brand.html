@@ -1,45 +1,28 @@
 {% extends 'base.html' %} {% block title %}Create{% endblock %} {% load static
-%} {%block content%}
-<table class="table">
-  <thead>
-    <tr>
-      <th scope="col"></th>
-      <th scope="col">Computer Code</th>
-      <th scope="col">Generation</th>
-      <th scope="col">Quantity</th>
-      <th scope="col">Unit Price</th>
-      <th scope="col">Total Price</th>
-    </tr>
-  </thead>
+%} {%block content%} {%for data in page_obj%}
 
+<table class="table">
   <tbody>
-    {%for data in page_obj%}
     <tr>
       <td>
         <img
-          src="http://localhost:8000/media/{{ data.image }}"
+          src="http://localhost:8000/media/{{ data.logo }}"
           class="img-fluid"
           alt="{{ data.image }}"
           style="height: 130px; width: 350px; padding: 2px"
         />
       </td>
-      <td>{{data.computer_code}}</td>
-      <!-- <td>{{data.generation}}</td> -->
-
-      <td>{{data.specification}}</td>
-      <td>{{data.quantity}}</td>
-      <td>{{data.unit_rate}}</td>
-      <td>{{data.total_price}}</td>
-      <td>
-        <a href="{% url 'computer:updateList' data.id %}"
+      <td>{{data.brand_name}}</td>
+      <td style="text-align: center">
+        <a href="{% url 'computer:update_brand' data.id %}"
           ><button type="submit" class="btn btn-primary">Edit</button></a
         >
       </td>
     </tr>
-    {% endfor %}
   </tbody>
 </table>
 
+{% endfor %}
 <div class="pagination">
   <span class="step-links">
     {%if page_obj.has_previous%}
@@ -57,7 +40,7 @@
     {% endif %}
   </span>
 </div>
-<a href="{% url 'computer:createList' %}">
+<a href="{% url 'computer:create_brand' %}">
   <button class="button">Add</button>
 </a>
 

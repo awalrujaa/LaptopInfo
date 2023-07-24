@@ -3,35 +3,24 @@
 <table class="table">
   <thead>
     <tr>
-      <th scope="col"></th>
-      <th scope="col">Computer Code</th>
+      <th scope="col">Brand Name</th>
       <th scope="col">Generation</th>
-      <th scope="col">Quantity</th>
-      <th scope="col">Unit Price</th>
-      <th scope="col">Total Price</th>
+      <th scope="col">Minimum Price</th>
+      <th scope="col">Maximum Price</th>
+      <th scope="col">RAM</th>
     </tr>
   </thead>
 
   <tbody>
     {%for data in page_obj%}
     <tr>
+      <td>{{data.brand}}</td>
+      <td>{{data.generation}}</td>
+      <td>{{data.price_min}}</td>
+      <td>{{data.price_max}}</td>
+      <td>{{data.ram}}</td>
       <td>
-        <img
-          src="http://localhost:8000/media/{{ data.image }}"
-          class="img-fluid"
-          alt="{{ data.image }}"
-          style="height: 130px; width: 350px; padding: 2px"
-        />
-      </td>
-      <td>{{data.computer_code}}</td>
-      <!-- <td>{{data.generation}}</td> -->
-
-      <td>{{data.specification}}</td>
-      <td>{{data.quantity}}</td>
-      <td>{{data.unit_rate}}</td>
-      <td>{{data.total_price}}</td>
-      <td>
-        <a href="{% url 'computer:updateList' data.id %}"
+        <a href="{% url 'computer:update_specification' data.id %}"
           ><button type="submit" class="btn btn-primary">Edit</button></a
         >
       </td>
@@ -57,7 +46,7 @@
     {% endif %}
   </span>
 </div>
-<a href="{% url 'computer:createList' %}">
+<a href="{% url 'computer:add_specification' %}">
   <button class="button">Add</button>
 </a>
 

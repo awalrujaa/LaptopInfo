@@ -1,7 +1,11 @@
 {% extends 'base.html' %} {% block title %}Create{% endblock %} {% load static
-    %} {% block content %}
-    
-    <p>Database updated.</p>
-    
-    {% endblock %}
-    
+%} {% block content %}
+
+<p>Database updated.</p>
+<script>
+  {
+    alert("Database Updated!");
+  }
+</script>
+
+{% endblock %}

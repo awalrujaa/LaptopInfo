@@ -1,0 +1,54 @@
+{% extends 'base.html' %} {% block title %}Create{% endblock %} {% load static
+%} {% block content %}
+
+<form method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+  <div class="form-group row">
+    <label
+      for="brand_name"
+      class="col-sm-2 col-form-label"
+      style="padding-left: 2rem"
+      >Brand Name</label
+    >
+    <div class="form-group row">
+      <input
+        type="text"
+        class="form-control"
+        id="brand_name"
+        name="brand_name"
+        placeholder="Brand Name"
+        required
+      />
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <label
+      for="brand_logo"
+      class="col-sm-2 col-form-label"
+      style="padding-left: 2rem"
+      >Logo</label
+    >
+    <div class="col-sm-10">
+      <input
+        type="file"
+        class="form-control-file"
+        id="brand_logo"
+        name="brand_logo"
+        accept="image/*"
+        required
+      />
+    </div>
+  </div>
+  <div
+    class="form-group row"
+    class="col-sm-2 col-form-label"
+    style="padding-left: 1rem"
+  >
+    <div class="col-sm-10" action="{% url 'computer:view_brand' %}">
+      <button type="submit" class="btn btn-primary btn-lg">Save</button>
+    </div>
+  </div>
+</form>
+
+{% endblock %}
