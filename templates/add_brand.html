@@ -1,5 +1,5 @@
-{% extends 'base.html' %} {% block title %}Create{% endblock %} {% load static
-%} {% block content %}
+{% extends 'base.html' %} {% block title %}Add Brand{% endblock %} {% load
+static %} {% block content %}
 
 <form method="post" enctype="multipart/form-data">
   {% csrf_token %}
@@ -29,7 +29,9 @@
       style="padding-left: 2rem"
       >Logo</label
     >
-    <div class="col-sm-10">
+    <!-- <input type="file" class="form-control" id="customFile" /> -->
+    <div class="form-group row">
+      <!-- <input type="file" class="form-control-file" id="customFile" name="brand_logo" /> -->
       <input
         type="file"
         class="form-control-file"

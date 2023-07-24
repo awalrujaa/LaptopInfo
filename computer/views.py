@@ -8,20 +8,12 @@ from .models import Computer, ComputerSpecification, ComputerBrand
 from django.http import HttpResponse
 from django.views import View
 
-# class MyView(View):
-#     def get(self, request):
-#         # <view logic>
-#         return HttpResponse('result')
-
 def index(request):
     return render(request,'index.html')
-    # return render(request,'nav.html')
 
-def createList(request):
+def add_computer(request):
     totalPrice = 0.0
     message=''
-    computerCode = 0
-    quantity=1
 
     temp = ComputerSpecification.objects.all()
     specifications = []
@@ -43,22 +35,19 @@ def createList(request):
         price_max= ComputerSpecification.objects.filter(id=specificationId)[0].price_max
         if float(unitPrice) >= price_min and float(unitPrice) <= price_max:
             saveData = Computer(computer_code=computerCode, specification= specification, quantity=quantity, unit_rate=unitPrice, total_price = totalPrice, image=image_url)
-            
-            
             saveData.save()
             message='Data successfully added!'
             
         else:
             print("Invalid Unit Price!")
             message='Price Out of Range.'
-            return render(request, 'create.html', {"specifications":specifications, 'message': message, 'computer_code': computerCode, 'quantity': quantity,})
-    
+            return render(request, 'add_computer.html', {"specifications":specifications, 'message': message, 'computer_code': computerCode, 'quantity': quantity,})
 
-    return render(request,'create.html', {"specifications":specifications, "total_price": totalPrice,'message': message})
-
+    return render(request,'add_computer.html', {"specifications":specifications, 'message': message})
 
 
-def updateList(request, id):
+
+def update_computer(request, id):
     temp = ComputerSpecification.objects.all()
     specifications = []
     for specification in temp:
@@ -66,30 +55,40 @@ def updateList(request, id):
 
     try:
         current_specification = Computer.objects.get(pk=id)
+        image_url= current_specification.image
     except Computer.DoesNotExist:
         raise Http404("The model does not exist")
-    return render(request, 'update.html', {"specifications":specifications, "current_specification":current_specification})
 
-
-def updated(request, id):
     if request.method == 'POST':
-        
-        obj = ComputerSpecification.objects.get(id=id)
+        obj = ComputerSpecification.objects.filter(id=id)
         obj.computerCode = request.POST.get('computerCode')
         obj.quantity = request.POST.get('quantity')
         specificationId = request.POST.get('specificationId')
         
+        
+        files = request.FILES.getlist('files')
+        for file in files:
+            if(file!=''):
+                image_to_delete = Computer.objects.get(id = id).image
+                image_to_delete.delete()
+                image_url = file
+            print(image_url)
         obj.unitPrice = request.POST.get('unitPrice')
         totalPrice = float(obj.quantity)*float(obj.unitPrice)
     
         specification = ComputerSpecification.objects.filter(id=specificationId)[0]
         saveData = Computer(id = id,computer_code=obj.computerCode, specification= specification, quantity=obj.quantity, unit_rate=obj.unitPrice, total_price = totalPrice,  image = image_url)
         saveData.save()
-    return render(request, "updateMessage.html")
+        return render(request, "update_message.html")
+    
+    return render(request, 'update_computer.html', {"specifications":specifications, "current_specification":current_specification})
 
-def viewList(request):
+
+
+
+def view_computer(request):
     temp = Computer.objects.all()
-    paginator = Paginator(temp,3 )
+    paginator = Paginator(temp,5 )
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
 
@@ -97,11 +96,13 @@ def viewList(request):
     for data in temp:
         detail_list.append({'id': data.id,'computer_code': data.computer_code, 'specification': data.specification, 'quantity': data.quantity,'unit_rate': data.unit_rate,'total_price': data.total_price})
     
-    return render(request, 'viewList.html', {'detail_list': detail_list, 'page_obj': page_obj})
+    return render(request, 'view_computer.html', {'detail_list': detail_list, 'page_obj': page_obj})
 
+def delete_computer(request, id):
+    Computer.objects.get(id = id).delete()
+    return render(request,'update_message.html')
 
-
-def create_brand(request):
+def add_brand(request):
     if request.method == 'POST':
         print("Button clicked")
         brand_logo = request.FILES.getlist('brand_logo')
@@ -111,12 +112,12 @@ def create_brand(request):
         saveData = ComputerBrand(brand_name = brand_name, logo = logo)
         saveData.save()
         print("Post successful.")
-    return render(request,'create_brand.html')
+    return render(request,'add_brand.html')
 
 
 def view_brand(request):
     temp = ComputerBrand.objects.all()
-    paginator = Paginator(temp,3 )
+    paginator = Paginator(temp,5 )
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
 
@@ -153,8 +154,12 @@ def update_brand(request, id):
         
         saveData = ComputerBrand(id = id,brand_name=brand_name, logo= image_url)
         saveData.save()
-        return render(request,'updateMessage.html')
+        return render(request,'update_message.html')
     return render(request, 'update_brand.html',{'current_specification': current_specification})
+
+def delete_brand(request, id):
+    ComputerBrand.objects.get(id = id).delete()
+    return render(request,'update_message.html')
 
 def add_specification(request):
     
@@ -214,7 +219,10 @@ def update_specification(request, id):
         specification = ComputerBrand.objects.filter(id=specificationId)[0]
         saveData = ComputerSpecification(id = id,generation=generation, price_min = price_min, price_max=price_max,ram =ram, brand = specification)
         saveData.save()
-        return render(request,'updateMessage.html')
+        return render(request,'update_message.html')
     return render(request, 'update_specification.html',{'current_specification': current_specification, 'specifications': specifications})
 
 
+def delete_specification(request, id):
+    ComputerSpecification.objects.get(id = id).delete()
+    return render(request,'update_message.html')

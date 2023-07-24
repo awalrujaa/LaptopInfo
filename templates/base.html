@@ -23,16 +23,44 @@
   <body>
     <div class="container">
       <header class="header">
-        <a href="{% url 'computer:home' %}" class="logo">Django Project</a>
+        <div class="header_content">
+          <a href="{% url 'computer:home' %}" class="logo">Django Project</a>
+        </div>
+
         <nav class="navbar">
-          <a href="{% url 'computer:view_brand' %}">Brand</a>
-          <a href="{% url 'computer:view_specification' %}">Specification</a>
-          <a href="{% url 'computer:viewList' %}">Computer</a>
+          <ul class="nav_list">
+            <li class="nav_item">
+              <a href="{% url 'computer:view_brand' %}" class="nav-link"
+                >Brand</a
+              >
+            </li>
+          </ul>
+          <ul class="nav_list">
+            <li class="nav_item">
+              <a href="{% url 'computer:view_specification' %}" class="nav-link"
+                >Specification</a
+              >
+            </li>
+          </ul>
+          <ul class="nav_list">
+            <li class="nav_item">
+              <a href="{% url 'computer:view_computer' %}" class="nav-link"
+                >Computer</a
+              >
+            </li>
+          </ul>
+
+          <!-- <a href="{% url 'computer:view_specification' %}" class="nav-item"
+            >Specification</a
+          >
+          <a href="{% url 'computer:view_computer' %}" class="nav-item">Computer</a> -->
         </nav>
       </header>
 
       <div class="main" id="content">{% block content %} {% endblock %}</div>
     </div>
+
+    <script src="{% static 'js/index.js' %}"></script>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

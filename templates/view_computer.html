@@ -1,14 +1,19 @@
-{% extends 'base.html' %} {% block title %}Create{% endblock %} {% load static
-%} {%block content%}
+{% extends 'base.html' %} {% block title %}View Computer{% endblock %} {% load
+static %} {%block content%}
+<a href="{% url 'computer:add_computer' %}">
+  <button class="button">Add</button>
+</a>
 <table class="table">
   <thead>
     <tr>
-      <th scope="col"></th>
+      <th scope="col">Image</th>
       <th scope="col">Computer Code</th>
       <th scope="col">Generation</th>
       <th scope="col">Quantity</th>
       <th scope="col">Unit Price</th>
       <th scope="col">Total Price</th>
+      <th scope="col"></th>
+      <th scope="col"></th>
     </tr>
   </thead>
 
@@ -20,7 +25,7 @@
           src="http://localhost:8000/media/{{ data.image }}"
           class="img-fluid"
           alt="{{ data.image }}"
-          style="height: 130px; width: 350px; padding: 2px"
+          style="height: 65px; width: 150px; padding: 2px"
         />
       </td>
       <td>{{data.computer_code}}</td>
@@ -31,8 +36,13 @@
       <td>{{data.unit_rate}}</td>
       <td>{{data.total_price}}</td>
       <td>
-        <a href="{% url 'computer:updateList' data.id %}"
+        <a href="{% url 'computer:update_computer' data.id %}"
           ><button type="submit" class="btn btn-primary">Edit</button></a
+        >
+      </td>
+      <td>
+        <a href="{% url 'computer:delete_computer' data.id %}"
+          ><button type="submit" class="btn btn-danger">Delete</button></a
         >
       </td>
     </tr>
@@ -57,8 +67,5 @@
     {% endif %}
   </span>
 </div>
-<a href="{% url 'computer:createList' %}">
-  <button class="button">Add</button>
-</a>
 
 {%endblock%}

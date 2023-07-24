@@ -1,5 +1,8 @@
-{% extends 'base.html' %} {% block title %}Create{% endblock %} {% load static
-%} {%block content%}
+{% extends 'base.html' %} {% block title %}View Specification{% endblock %} {%
+load static %} {%block content%}
+<a href="{% url 'computer:add_specification' %}">
+  <button class="button">Add</button>
+</a>
 <table class="table">
   <thead>
     <tr>
@@ -8,6 +11,8 @@
       <th scope="col">Minimum Price</th>
       <th scope="col">Maximum Price</th>
       <th scope="col">RAM</th>
+      <th scope="col"></th>
+      <th scope="col"></th>
     </tr>
   </thead>
 
@@ -22,6 +27,11 @@
       <td>
         <a href="{% url 'computer:update_specification' data.id %}"
           ><button type="submit" class="btn btn-primary">Edit</button></a
+        >
+      </td>
+      <td>
+        <a href="{% url 'computer:delete_specification' data.id %}"
+          ><button type="submit" class="btn btn-danger">Delete</button></a
         >
       </td>
     </tr>
@@ -46,8 +56,5 @@
     {% endif %}
   </span>
 </div>
-<a href="{% url 'computer:add_specification' %}">
-  <button class="button">Add</button>
-</a>
 
 {%endblock%}
